@@ -1,0 +1,23 @@
+{
+  "name": "herewego",
+  "version": "1.0.0",
+  "description": "This is to complete challenge 1.",
+  "main": "server.js",
+  "scripts": {
+    "test": "",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devsumanmdn/herewego.git"
+  },
+  "author": "Suman Kundu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devsumanmdn/herewego/issues"
+  },
+  "homepage": "https://github.com/devsumanmdn/herewego#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}

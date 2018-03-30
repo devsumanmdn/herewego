@@ -20,34 +20,39 @@ var app = express()
 app.use(bodyParser.json())
 app.use(cookieParser())
 
-app.get('/', (req, res) => {
-  res.send('hello')
-})
-
 app.post('/login', userLogin, (req, res) => {
   res
     .header('auth', req.token)
     .cookie('auth', req.token)
     .status(200)
-    .send('Logged In')
+    .send({ message: 'Logged In' })
 })
 
 app.post('/patchrequest', authenticateUser, (req, res) => {
   const { obj, patches } = req.body
-  result = jsonpatch.apply_patch(obj, patches)
-  res.send(result)
+  if (obj && patches) {
+    try {
+      result = jsonpatch.apply_patch(obj, patches)
+      res.json(result)
+    } catch (e) {
+      res.status(400).send({ error: 'Invalid patch request!' })
+    }
+  }
 })
 
 app.post('/thumbnail', authenticateUser, (req, res) => {
   url = req.body.url
-
-  download(url, 'original.png', function() {
-    sharp(__dirname + '/original.png')
-      .resize(50, 50)
-      .toFile('output.png', (err, info) => {
-        res.sendFile(__dirname + '/output.png')
-      })
-  })
+  if (url) {
+    download(url, 'original.png', function() {
+      sharp(__dirname + '/original.png')
+        .resize(50, 50)
+        .toFile('output.png', (err, info) => {
+          res.sendFile(__dirname + '/output.png')
+        })
+    })
+  } else {
+    res.status(400).send({ message: 'No image url found' })
+  }
 })
 
 app.listen(8000, err => {

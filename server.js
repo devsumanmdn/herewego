@@ -47,11 +47,12 @@ app.post('/thumbnail', authenticateUser, (req, res) => {
       sharp(__dirname + '/original.png')
         .resize(50, 50)
         .toFile('output.png', (err, info) => {
+          if (err) throw new Error(err)
           res.sendFile(__dirname + '/output.png')
         })
     })
   } else {
-    res.status(400).send({ message: 'No image url found' })
+    res.status(400).send({ message: 'Bad Request!' })
   }
 })
 

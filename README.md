@@ -4,9 +4,9 @@
 
 #### Features
 
-    - Authentication
-    - JSON patching
-    - Image Thumbnail Generation
+* Authentication
+* JSON patching
+* Image Thumbnail Generation
 
 #### Installation
 

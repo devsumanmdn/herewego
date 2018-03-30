@@ -4,7 +4,7 @@
   "description": "This is to complete challenge 1.",
   "main": "server.js",
   "scripts": {
-    "test": "",
+    "test": "mocha",
     "start": "nodemon server.js"
   },
   "repository": {
@@ -25,5 +25,10 @@
     "jsonwebtoken": "^8.2.0",
     "request": "^2.85.0",
     "sharp": "^0.20.1"
+  },
+  "devDependencies": {
+    "expect": "^22.4.3",
+    "mocha": "^5.0.5",
+    "supertest": "^3.0.0"
   }
 }

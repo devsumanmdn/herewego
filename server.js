@@ -20,10 +20,15 @@ var app = express()
 app.use(bodyParser.json())
 app.use(cookieParser())
 
+app.get('/', (req, res) => {
+  res.send('hello')
+})
+
 app.post('/login', userLogin, (req, res) => {
   res
     .header('auth', req.token)
     .cookie('auth', req.token)
+    .status(200)
     .send('Logged In')
 })
 
@@ -49,3 +54,5 @@ app.listen(8000, err => {
   if (err) return console.log(err)
   console.log('Running!')
 })
+
+module.exports = { app }

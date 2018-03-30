@@ -7,7 +7,7 @@ module.exports = {
       var token = jwt.sign({ user: username }, 'abc123secret').toString()
       req.token = token
       next()
-    } else res.send('unauthenticated')
+    } else res.status(400).send('Bad Request')
   },
   authenticateUser: async (req, res, next) => {
     var token = req.cookies.auth

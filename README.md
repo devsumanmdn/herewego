@@ -1,8 +1,13 @@
-## herewego
+# HereWeGo
 
-# Backend Task
+> Backend Task
 
-# Get started
+#### Features
 
-$ npm i <br />
-$ npm start
+    - Authentication
+    - JSON patching
+    - Image Thumbnail Generation
+
+#### Installation
+
+    npm install

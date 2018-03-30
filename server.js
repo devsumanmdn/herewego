@@ -1,17 +1,51 @@
 const express = require('express')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const { userLogin, authenticateUser, getpatch } = require('./services')
+const jsonpatch = require('jsonpatch')
+const fs = require('fs')
+const request = require('request')
+const sharp = require('sharp')
+
+const download = function(uri, filename, callback) {
+  request.head(uri, function(err, res, body) {
+    request(uri)
+      .pipe(fs.createWriteStream(filename))
+      .on('close', callback)
+  })
+}
 
 var app = express()
 
-app.get('/', (req,res) => {
-    res.send('hello')
+app.use(bodyParser.json())
+app.use(cookieParser())
+
+app.post('/login', userLogin, (req, res) => {
+  res
+    .header('auth', req.token)
+    .cookie('auth', req.token)
+    .send('Logged In')
 })
 
-app.post('/login', (req, res) => {
-    // things goes here
+app.post('/patchrequest', authenticateUser, (req, res) => {
+  const { obj, patches } = req.body
+  result = jsonpatch.apply_patch(obj, patches)
+  res.send(result)
 })
 
-app.listen(8000, (err) => {
-    if (err)
-        return console.log(err)
-    console.log('Running!');
+app.post('/thumbnail', authenticateUser, (req, res) => {
+  url = req.body.url
+
+  download(url, 'original.png', function() {
+    sharp(__dirname + '/original.png')
+      .resize(50, 50)
+      .toFile('output.png', (err, info) => {
+        res.sendFile(__dirname + '/output.png')
+      })
+  })
+})
+
+app.listen(8000, err => {
+  if (err) return console.log(err)
+  console.log('Running!')
 })
